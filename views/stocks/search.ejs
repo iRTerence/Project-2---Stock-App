@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+
+</head>
+<body>
+
+    <h1> Hi welcome to the page lmao</h1>
+    <form>
+        <div class="form-group">
+          <label for="exampleInputEmail1">Ticker</label>
+          <input type="text" name="ticker" id="ticker">
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+      </form>
+      <% if (tickerData.length !== 0) { %>
+        
+        <div>Symbol:<span id="symbol"><%=tickerData[0].symbol%></span></div>
+        <div>Name: <%=tickerData[0].name%></div>
+        <div>Price: <%=tickerData[0].price%></div>
+        <div>Day low: <%=tickerData[0].dayLow%></div>
+        <div>Day high: <%=tickerData[0].dayHigh%></div>
+        <div>Open: <%=tickerData[0].open%></div>
+        <div>Year high: <%=tickerData[0].yearHigh%></div>
+        <div>Year low: <%=tickerData[0].yearLow%></div>
+
+      <%} else {%>
+        <div>Price: </div>
+        <div>Day low: </div>
+        <div>Day high: </div>
+        <div>Open: </div>
+        <div>Year high: </div>
+        <div>Year low: </div>
+        <% }%> %>
+     
+       <button type="submit" class="btn btn-primary" id="watchlist">Add to watchlist</button>
+       <button type="submit" class="btn btn-primary" id="portfolio">Add to portfolio</button>
+ 
+      
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
+    <script src="../static/main.js"></script>
+
+</body>
+</html>
