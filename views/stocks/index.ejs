@@ -8,22 +8,27 @@
 </head>
 <body>
 
-    <a href="stocks/search" class="brand-logo left">Stocks</a>
-<!-- Add login UI here -->
-    <ul class="right">
-        <li>
-        <% if (user) { %>
-            <a href="/logout"><i class="material-icons left"></i>Log Out</a>
-        <% } else { %>
-            <a href="/auth/google"><i class="material-icons left"></i>Login with Google</a>
-        <% } %>
+    <ul class="nav justify-content-center">
+        <li class="nav-item">
+            <a class="nav-link active" href="/stocks">Home</a>
+          </li>
+        <li class="nav-item">
+          <a class="nav-link active" href="/stocks/search">Search</a>
         </li>
-    </ul>
+        <li class="nav-item ">
+            <% if (user) { %>
+          <a class="nav-link active" href="/logout">Log Out</a>
+          <% } else { %>
+            <a class="nav-link active" href="http://localhost:3000/auth/google">Login</a>
+            <% } %>
+        </li>
+      </ul>
 
 
     <h1>This works SRS</h1>
-    HI GUYS
 
+
+    
 
 
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>

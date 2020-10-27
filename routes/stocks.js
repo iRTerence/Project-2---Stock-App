@@ -9,6 +9,7 @@ router.get('/', isLoggedIn ,stocksCtrl.index)
 
 router.get('/search', isLoggedIn, stocksCtrl.search)
 
+
 router.post('/watch', stocksCtrl.postWatch)
 router.post('/portfolio', stocksCtrl.postPortfolio)
 
