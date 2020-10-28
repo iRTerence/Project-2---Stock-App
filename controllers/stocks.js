@@ -9,6 +9,47 @@ const token = process.env.FINNHUB_TOKEN;
 const rootURL = `https://financialmodelingprep.com/api/v3/quote/`;
 
 
+async function removeTickerWatch(req,res) {
+    const id = req.params
+    try{
+        //Checks to see if stock is there 
+        const remove = await Stocks.findOne({'watch.ticker': id.id })
+        console.log(remove)
+        //forEach to loop through the watch array to see if ticker(req.params.id) = ticker.id in one of the objects
+        remove.watch.forEach(function (a){
+            if(a.ticker === id.id) {
+                //remove from array if it ticker ID matches req.params.id
+                remove.watch.splice(a, 1);
+                remove.save()
+            } 
+        }) 
+    } catch (err) {
+        console.log(err)
+    }
+        res.redirect('/stocks')
+
+}
+
+async function removeTickerPort(req,res) {
+    const id = req.params
+    try{
+        //Checks to see if stock is there 
+        const remove = await Stocks.findOne({'portfolio.ticker': id.id })
+        //forEach to loop through the portfolio array to see if ticker(req.params.id) = ticker.id in one of the objects
+        remove.portfolio.forEach(function (a){
+        //remove from array if it ticker ID matches req.params.id
+            if(a.ticker === id.id) {
+                remove.portfolio.splice(a, 1);
+                remove.save()
+            } 
+        }) 
+    } catch (err) {
+        console.log(err)
+    }
+        res.redirect('/stocks')
+
+}
+
 function search(req, res) {
     //ticker data 
     let ticker = req.query.ticker   
@@ -43,7 +84,7 @@ async function index(req, res) {
         let a = await axios.get(`${rootURL+api}?apikey=${token}`)
         apiPort.push(a.data[0])
       }      
-      console.log(apiWatch[0].symbol)
+    //   console.log(apiWatch[0].symbol)
         res.render('stocks/index', {
             user: req.user,
             name: req.query.name,
@@ -131,5 +172,7 @@ module.exports = {
     search,
     index,
     postWatch,
-    postPortfolio
+    postPortfolio,
+    removeTickerWatch,
+    removeTickerPort
 }

@@ -11,6 +11,8 @@ router.get('/search', isLoggedIn, stocksCtrl.search)
 
 router.post('/watch', stocksCtrl.postWatch)
 router.post('/portfolio', stocksCtrl.postPortfolio)
+router.post('/watch/:id', stocksCtrl.removeTickerWatch)
+router.post('/portfolio/:id', stocksCtrl.removeTickerPort)
 
 
 function isLoggedIn(req, res, next) {

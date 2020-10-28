@@ -30,15 +30,26 @@
       <div> Watch list</div>
       <% if (apiWatch.length !== 0) { %>
         <% apiWatch.forEach(function (i) { %>
-            <div>Symbol:<%=i.symbol%> </div>
+            <div>Symbol:<%=i.symbol%> Price: <%=i.price%>, Percent Change: <%=i.changesPercentage%>, Change: <%=i.change%> </div>
+            <form action="/stocks/watch/<%=i.symbol%>?_method=DELETE" METHOD="POST">
+                <button>Delete</button>
+            </form>
         <% }) %>
         <% } else {%>
             <div>No items on the watchlist yet!</div>
         <% }%> 
 
-
-      <div> Portfolio lmao</div>
-
+      <div> Portfolio </div>
+      <% if (apiPort.length !== 0) { %>
+        <% apiPort.forEach(function (i) { %>
+            <div>Symbol:<%=i.symbol%> Price: <%=i.price%>, Percent Change: <%=i.changesPercentage%>, Change: <%=i.change%> </div>
+            <form action="/stocks/portfolio/<%=i.symbol%>?_method=DELETE" METHOD="POST">
+              <button>Delete</button>
+            </form>
+        <% }) %>
+        <% } else {%>
+            <div>No items on the watchlist yet!</div>
+        <% }%> 
 
 
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
