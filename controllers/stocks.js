@@ -20,31 +20,38 @@ function search(req, res) {
     })
 }
 
-function index(req, res) {
-    //set two variables for duplicate array and API data
-    let dupeArr = []
-    let apiData = []
-    //push what the user has saved in their watchlist/portfolio into a single array
+async function index(req, res) {
+    //set two variables for the symbols in the watchlist and the API info
+    let initWatch = []
+    let initPort = []
+    let apiWatch = []
+    let apiPort = []
+    //push what the user has saved in their watchlist/portfolio into initWatch or initPort
     req.user.watch.forEach(t => {
-        dupeArr.push(t.ticker)
+        initWatch.push(t.ticker)
     })
     req.user.portfolio.forEach(t => {
-        dupeArr.push(t.ticker)
+        initPort.push(t.ticker)
     })
-    //remove any dupes from watchlist/portoflio and set it to a new array Final
-    finalArr = [...new Set(dupeArr)]
-    console.log(finalArr)
-    //for loop to loop over a API request to get all the json data required that were in the FinalARR
-    
-    // request(`${rootURL+ticker}?apikey=${token}`, (err, response, body) => {
-        // const tickerData = JSON.parse(body);
+
+    //for loop to get all the API info for both the watchlist and portfolio and place it in the 2 info arrays
+    for(let api of initWatch ) {
+      let a = await axios.get(`${rootURL+api}?apikey=${token}`)
+      apiWatch.push(a.data[0])
+    }
+    for(let api of initPort ) {
+        let a = await axios.get(`${rootURL+api}?apikey=${token}`)
+        apiPort.push(a.data[0])
+      }      
+      console.log(apiWatch[0].symbol)
         res.render('stocks/index', {
             user: req.user,
             name: req.query.name,
-            // tickerData
+            apiPort,
+            apiWatch,
         })  
-    // })
 }
+
 
 
 async function postWatch (req,res ) {

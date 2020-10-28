@@ -27,8 +27,18 @@
 
     <h1>This works SRS</h1>
 
+      <div> Watch list</div>
+      <% if (apiWatch.length !== 0) { %>
+        <% apiWatch.forEach(function (i) { %>
+            <div>Symbol:<%=i.symbol%> </div>
+        <% }) %>
+        <% } else {%>
+            <div>No items on the watchlist yet!</div>
+        <% }%> 
 
-    
+
+      <div> Portfolio lmao</div>
+
 
 
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
