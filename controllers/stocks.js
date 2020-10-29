@@ -18,7 +18,7 @@ async function removeTickerWatch(req,res) {
         //forEach to loop through the watch array to see if ticker(req.params.id) = ticker.id in one of the objects
         remove.watch.forEach(function (a){
             if(a.ticker === id.id) {
-                //remove from array if it ticker ID matches req.params.id
+                //remove from array if the ticker ID matches id.id
                 remove.watch.splice(a, 1);
                 remove.save()
             } 
@@ -67,30 +67,34 @@ async function index(req, res) {
     let initPort = []
     let apiWatch = []
     let apiPort = []
+    //This if statement is to check if the user is logged in or not and depending on if they are, will render differently
+    if(req.user !== undefined) {
     //push what the user has saved in their watchlist/portfolio into initWatch or initPort
-    req.user.watch.forEach(t => {
-        initWatch.push(t.ticker)
-    })
-    req.user.portfolio.forEach(t => {
-        initPort.push(t.ticker)
-    })
-
-    //for loop to get all the API info for both the watchlist and portfolio and place it in the 2 info arrays
-    for(let api of initWatch ) {
-      let a = await axios.get(`${rootURL+api}?apikey=${token}`)
-      apiWatch.push(a.data[0])
+     req.user.watch.forEach(t => {
+         initWatch.push(t.ticker)
+     })
+     req.user.portfolio.forEach(t => {
+         initPort.push(t.ticker)
+     })
+     //for loop to get all the API info for both the watchlist and portfolio and place it in the 2 api arrays
+     for(let api of initWatch ) {
+       let a = await axios.get(`${rootURL+api}?apikey=${token}`)
+       apiWatch.push(a.data[0])
+     }
+     for(let api of initPort ) {
+         let a = await axios.get(`${rootURL+api}?apikey=${token}`)
+         apiPort.push(a.data[0])
+       }      
+     res.render('stocks/index', {
+          user: req.user,
+          name: req.query.name,
+          apiPort,
+          apiWatch,
+         })  
+    // this else is nescesarry so that I don't get an error for searching undefined data in my API if the user isn't logged
+    } else {
+        res.render('stocks/index', {user: req.user})
     }
-    for(let api of initPort ) {
-        let a = await axios.get(`${rootURL+api}?apikey=${token}`)
-        apiPort.push(a.data[0])
-      }      
-    //   console.log(apiWatch[0].symbol)
-        res.render('stocks/index', {
-            user: req.user,
-            name: req.query.name,
-            apiPort,
-            apiWatch,
-        })  
 }
 
 
@@ -142,7 +146,7 @@ async function postPortfolio (req,res ) {
       if (a.length !== 0) {
           console.log(a)
           let tempArray = []
-          console.log(a[0].portfolio)
+        //   console.log(a[0].portfolio)
           a[0].portfolio.forEach(w => {
           tempArray.push(w.ticker)
         })

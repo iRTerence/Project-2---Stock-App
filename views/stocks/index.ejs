@@ -13,94 +13,137 @@
 <body>
 
 <!-- Hero Header -->
-  <section class="hero has-background-black">
+  <section class="hero has-background-white">
     <div class="hero-body">
         <div class="container center">
           <figure class="image center">
-            <img src="https://banner2.cleanpng.com/20180810/kcj/kisspng-stock-market-investment-share-iprovn-health-hack-cheats-amp-hints-cheat-hac-5b6d68a5f17c66.9736943215338968699891.jpg"style="max-width: 160px">
+            <img src="https://image.freepik.com/free-vector/buy-sell-concept-design-showing-bull-bear_1017-13716.jpg"style="max-width: 160px">
           </figure>
         </div>
     </div>
 </section>
+<nav class="navbar is-spaced is-light" role="navigation" aria-label="main navigation">
+    <div class="navbar-brand">
+      <a class="navbar-item active center" href="/stocks">Home</a>
+    </div>
+    <div class="navbar-brand">
+      <a class="navbar-item active center" href="/stocks/search">Search</a>
+    </div>
 
-  <!-- These are the two columns for my watchlist/portfolio  -->
-  <section class="section">
-    <div class="container">
-      <div class="columns">
-        <div class="column">
-          <div class="notification">
-            <div> Portfolio </div>
-            <!-- Portfolio Table -->
-            <table class="table is-striped is-fullwidth">
-              <thead>
-                <tr>
-                  <th><abbr title="Symbol">Symbol</abbr></th>
-                  <th>Price</th>
-                  <th><abbr title="Percent Change">Day's Gain</abbr></th>
-                  <th><abbr title="Won">Day's Gain (%)</abbr></th>
-                  <th><abbr title="Won">DELETE</abbr></th>
+
+  </div>
+    <div class="navbar-end">
+      <% if (user) { %>
+      <a class="navbar-item active center" href="/logout">Log Out</a>
+      <% } else { %>
+      <a class="navbar-item active center" href="http://localhost:3000/auth/google">Login</a>
+      <% } %>
+    </div>
+</nav>
+
+<% if (user) { %>
+    <!-- These are the two columns for my watchlist/portfolio  -->
+    <section class="section">
+      <div class="container">
+        <div class="columns">
+          <div class="column">
+            <div class="">
+              <h1 class="title is-size-4 center"> Portfolio </h1>
+              <!-- Portfolio Table -->
+              <table class="table is-striped is-fullwidth ">
+                <thead>
+                  <tr>
+                    <th class="has-text-centered"><abbr title="Symbol">Symbol</abbr></th>
+                    <th class="has-text-centered">Price</th>
+                    <th class="has-text-centered"><abbr title="Days Change">Day's Gain</abbr></th>
+                    <th class="has-text-centered"><abbr title="Percentage Change">Day's Gain (%)</abbr></th>
+                    <th><abbr title="Won">DELETE</abbr></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- looping through the apidata array and placing it in the table -->
+                    <% if (apiPort.length !== 0) { %>
+                      <% apiPort.forEach(function (i) { %>
+                  <tr>
+                      <td class="has-text-centered"><%=i.symbol%></td>
+                      <td class="has-text-centered"><%=i.price%></td>
+                      <td class="has-text-centered"><%=i.change%></td>
+                      <td class="has-text-centered	"><%=i.changesPercentage%></td>
+                      <td><form action="/stocks/portfolio/<%=i.symbol%>?_method=DELETE" METHOD="POST">
+                        <button class = "button is-small is-danger is-rounded ">Delete</button>
+                      </form></td>
                   </tr>
-              </thead>
-              <tbody>
-                  <!-- looping through the apidata array and placing it in the table -->
-                  <% if (apiPort.length !== 0) { %>
-                    <% apiPort.forEach(function (i) { %>
-                <tr>
-                    <td><%=i.symbol%></td>
-                    <td><%=i.price%></td>
-                    <td><%=i.change%></td>
-                    <td><%=i.changesPercentage%></td>
-                    <td><form action="/stocks/portfolio/<%=i.symbol%>?_method=DELETE" METHOD="POST">
-                      <button>Delete</button>
-                    </form></td>
-                </tr>
-                <% }) %>
-                <% } else {%>
-                    <div>No items on the watchlist yet!</div>
-                <% }%> 
-              </tbody>
-            </table>
+                  <% }) %>
+                  <% } else {%>
+                      <div>No items on the watchlist yet!</div>
+                  <% }%> 
+                </tbody>
+              </table>
+            </div>
           </div>
-        </div>
-        <div class="column">
-          <div class="notification">
-            <div> Watch list</div>
-            <table class="table is-striped is-fullwidth">
-              <thead>
-                <tr>
-                  <th><abbr title="Symbol">Symbol</abbr></th>
-                  <th>Price</th>
-                  <th><abbr title="Percent Change">Day's Gain</abbr></th>
-                  <th><abbr title="Won">Day's Gain (%)</abbr></th>
-                  <th><abbr title="Won">DELETE</abbr></th>
+          <div class="column">
+            <div class="">
+              <h1 class="title is-size-4 center"> Watchlist </h1>
+              <table class="table is-striped is-fullwidth">
+                <thead>
+                  <tr>
+                    <th class="has-text-centered"><abbr title="Symbol">Symbol</abbr></th>
+                    <th class="has-text-centered">Price</th>
+                    <th class="has-text-centered"><abbr title="Percent Change">Day's Gain</abbr></th>
+                    <th class="has-text-centered"><abbr title="Won">Day's Gain (%)</abbr></th>
+                    <th class="has-text-centered"><abbr title="Won">DELETE</abbr></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- looping through the apidata array and placing it in the table -->
+                    <% if (apiWatch.length !== 0) { %>
+                      <% apiWatch.forEach(function (i) { %>
+                  <tr>
+                      <td class="has-text-centered"><%=i.symbol%></td>
+                      <td class="has-text-centered"><%=i.price%></td>
+                      <td class="has-text-centered"><%=i.change%></td>
+                      <td class="has-text-centered"><%=i.changesPercentage%></td>
+                      <td class="has-text-centered"><form action="/stocks/watch/<%=i.symbol%>?_method=DELETE" METHOD="POST">
+                        <button class="button is-small is-danger is-rounded">Delete</button>
+                      </form></td>
                   </tr>
-              </thead>
-              <tbody>
-                  <!-- looping through the apidata array and placing it in the table -->
-                  <% if (apiWatch.length !== 0) { %>
-                    <% apiWatch.forEach(function (i) { %>
-                <tr>
-                    <td><%=i.symbol%></td>
-                    <td><%=i.price%></td>
-                    <td><%=i.change%></td>
-                    <td><%=i.changesPercentage%></td>
-                    <td><form action="/stocks/watch/<%=i.symbol%>?_method=DELETE" METHOD="POST">
-                      <button>Delete</button>
-                    </form></td>
-                </tr>
-                <% }) %>
-                <% } else {%>
-                    <div>No items on the watchlist yet!</div>
-                <% }%> 
-              </tbody>
-            </table>
+                  <% }) %>
+                  <% } else {%>
+                      <div>No items on the watchlist yet!</div>
+                  <% }%> 
+                </tbody>
+              </table>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-  </section>
+    </section>
+    <!-- if User is NOT logged in  -->
+<% } else { %>
+    <!-- These are the two columns for my watchlist/portfolio  -->
+    <section class="section">
+      <div class="container">
+        <div class="columns">
+          <div class="column">
+            <div class="">
+              <h1 class="title is-size-4 center"> Portfolio </h1>
+            </div>
+          </div>
+          <div class="column">
+            <div class="">
+              <h1 class="title is-size-4 center"> Watchlist </h1>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+<% } %>
+
+
 
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 </body>
 </html>
+
+
