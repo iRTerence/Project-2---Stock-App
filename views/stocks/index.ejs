@@ -2,6 +2,7 @@
 <%- include('partials/navbar') %>
 
 <% if (user) { %>
+
     <!-- These are the two columns for my watchlist/portfolio  -->
     <section class="section">
       <div class="container">
@@ -147,8 +148,8 @@
                 </span>
                 <div>Year low: <%=tickerData[0].yearLow%></div>
               </a>
-              <button type="submit" class="btn btn-primary" id="watchlist">Add to watchlist</button>
-              <button type="submit" class="btn btn-primary" id="portfolio">Add to portfolio</button>
+              <button type="submit" class="button is-primary is-rounded" id="portfolio">Add to portfolio</button>
+              <button type="submit" class="button is-primary is-rounded" id="watchlist">Add to watchlist</button>
         
             </article>
           </div>
@@ -157,22 +158,46 @@
     </div>
   </form>
   </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="columns">
+        <% for(i=0; i<3; i++) { %>
+        <div class="column">
+          <div class="">
+              <figure class="image is-200x128">
+                <img src=<%= tickerNews[i].image%> >
+              </figure>
+              <h5 class="title is-4 stoptext"><%= tickerNews[i].title%></h5>
+              <h6 class="subtitle is-6">Symbol:<%= tickerNews[i].symbol%></h6>
+              <p class ="stoptext"><%= tickerNews[i].text%> ... </p> <a href="<%= tickerNews[i].url%>">Learn more</a>
+          </div>
+        </div>
+        <% }%>
+      </div>
+
+    </div>
+  </section>
+
   <%} else {%>
     <form>
       <div class="container">
         <div class="columns">
           <div class="column">
-            <div class="notification">
+            <div class="">
               <article class="panel is-info">
                 <p class="panel-heading has-text-centered">
                   Search
                 </p>
                 <div class="panel-block">
                   <p class="control has-icons-left">
-                    <input class="input is-info" type="text" placeholder="ticker" name="ticker" id="ticker">
+                    <input class="input is-info" type="text" placeholder="ticker" name="ticker" id="ticker"> 
+                    <button>Submit</button>
                     <span class="icon is-left">
                       <i class="fas fa-search" aria-hidden="true"></i>
                     </span>
+                
+
                   </p>
                 </div>
               </article>
@@ -207,19 +232,13 @@
 <% } %>
 
 
-<!-- delete this lmao -->
-
-
-
-<!--  -->
-
 <!-- This is for the daily stock news -->
 		<section class="section">
 			<div class="container">
 				<div class="columns">
           <% for(i=0; i<3; i++) { %>
 					<div class="column">
-						<div class="notification">
+						<div class="">
                 <figure class="image is-200x128">
                   <img src=<%= stockNews[i].image%> >
                 </figure>

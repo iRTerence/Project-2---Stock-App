@@ -6,6 +6,7 @@ const request = require('request');
 const token = process.env.FINNHUB_TOKEN;
 const rootURL = `https://financialmodelingprep.com/api/v3/quote/`;
 const newsURL = `https://financialmodelingprep.com/api/v3/stock_news?limit=50&apikey=${token}`
+const tickerURL =  `https://financialmodelingprep.com/api/v3/stock_news?tickers=`
 
 
 async function removeTickerWatch(req,res) {
@@ -19,12 +20,12 @@ async function removeTickerWatch(req,res) {
                 //remove from array if the ticker ID matches id.id
                 remove.watch.splice(a, 1);
                 remove.save()
+                res.redirect('/stocks')
             } 
         }) 
     } catch (err) {
         console.log(err)
     }
-        res.redirect('/stocks')
 
 }
 
@@ -39,12 +40,12 @@ async function removeTickerPort(req,res) {
             if(a.ticker === id.id) {
                 remove.portfolio.splice(a, 1);
                 remove.save()
+                res.redirect('/stocks')
             } 
         }) 
     } catch (err) {
         console.log(err)
     }
-        res.redirect('back')
 
 }
 
@@ -71,6 +72,8 @@ async function index(req, res) {
     let news = await axios.get(newsURL)
     let ticker = req.query.ticker   
     let tickerData = await axios.get(`${rootURL+ticker}?apikey=${token}`)
+    let tickerNews = await axios.get(`${tickerURL+ticker}&limit=50&apikey=${token}`)
+    console.log(tickerNews.data)
 
     //This if statement is to check if the user is logged in or not and depending on if they are, will render differently
     if(req.user !== undefined) {
@@ -96,7 +99,8 @@ async function index(req, res) {
           apiPort,
           apiWatch,
           stockNews: news.data,
-          tickerData: tickerData.data
+          tickerData: tickerData.data,
+          tickerNews: tickerNews.data
          })  
     // this else is nescesarry so that I don't get an error for searching undefined data in my API if the user isn't logged
     } else {

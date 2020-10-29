@@ -2,7 +2,6 @@
 let change = document.querySelectorAll('.change')
 let $portfolio = $('#portfolio').on('click', postRequest)
 let $watchlist = $('#watchlist').on('click', watchRequest)
-let symbol = document.getElementById('symbol').innerText
 
 change.forEach((a) => {
     if(a.textContent.includes("-")) {
@@ -13,23 +12,25 @@ change.forEach((a) => {
 })
 
 
+let symbol = document.getElementById('symbol').innerText
+
 async function watchRequest() {
     try {
      await axios.post('http://localhost:3000/stocks/watch', {ticker: symbol})
-
     } catch (error) {
       console.log(error)
     }
+    window.location.reload();
 
 }
 
 async function postRequest() {
   try {
     await axios.post('http://localhost:3000/stocks/portfolio', {ticker: symbol,})
-
   } catch (error) {
     console.log(error)
   }
+  window.location.reload();
 
 }
 
