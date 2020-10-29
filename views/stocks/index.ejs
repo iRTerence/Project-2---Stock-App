@@ -17,7 +17,7 @@
     <div class="hero-body">
         <div class="container center">
           <figure class="image center">
-            <img src="https://banner2.cleanpng.com/20180810/kcj/kisspng-stock-market-investment-share-iprovn-health-hack-cheats-amp-hints-cheat-hac-5b6d68a5f17c66.9736943215338968699891.jpg"style="max-width: 256px">
+            <img src="https://banner2.cleanpng.com/20180810/kcj/kisspng-stock-market-investment-share-iprovn-health-hack-cheats-amp-hints-cheat-hac-5b6d68a5f17c66.9736943215338968699891.jpg"style="max-width: 160px">
           </figure>
         </div>
     </div>
@@ -29,31 +29,72 @@
       <div class="columns">
         <div class="column">
           <div class="notification">
-            <div> Watchlist </div>
-            <% if (apiWatch.length !== 0) { %>
-              <% apiWatch.forEach(function (i) { %>
-                  <div>Symbol:<%=i.symbol%> Price: <%=i.price%>, Percent Change: <%=i.changesPercentage%>, Change: <%=i.change%> </div>
-                  <form action="/stocks/watch/<%=i.symbol%>?_method=DELETE" METHOD="POST">
+            <div> Portfolio </div>
+            <!-- Portfolio Table -->
+            <table class="table is-striped is-fullwidth">
+              <thead>
+                <tr>
+                  <th><abbr title="Symbol">Symbol</abbr></th>
+                  <th>Price</th>
+                  <th><abbr title="Percent Change">Day's Gain</abbr></th>
+                  <th><abbr title="Won">Day's Gain (%)</abbr></th>
+                  <th><abbr title="Won">DELETE</abbr></th>
+                  </tr>
+              </thead>
+              <tbody>
+                  <!-- looping through the apidata array and placing it in the table -->
+                  <% if (apiPort.length !== 0) { %>
+                    <% apiPort.forEach(function (i) { %>
+                <tr>
+                    <td><%=i.symbol%></td>
+                    <td><%=i.price%></td>
+                    <td><%=i.change%></td>
+                    <td><%=i.changesPercentage%></td>
+                    <td><form action="/stocks/portfolio/<%=i.symbol%>?_method=DELETE" METHOD="POST">
                       <button>Delete</button>
-                  </form>
-              <% }) %>
-              <% } else {%>
-                  <div>No items on the watchlist yet!</div>
-              <% }%> 
+                    </form></td>
+                </tr>
+                <% }) %>
+                <% } else {%>
+                    <div>No items on the watchlist yet!</div>
+                <% }%> 
+              </tbody>
+            </table>
           </div>
         </div>
-        <div class="notification">
-          <div> Portfolio </div>
-      <% if (apiPort.length !== 0) { %>
-        <% apiPort.forEach(function (i) { %>
-            <div>Symbol:<%=i.symbol%> Price: <%=i.price%>, Percent Change: <%=i.changesPercentage%>, Change: <%=i.change%> </div>
-            <form action="/stocks/portfolio/<%=i.symbol%>?_method=DELETE" METHOD="POST">
-              <button>Delete</button>
-            </form>
-        <% }) %>
-        <% } else {%>
-            <div>No items on the watchlist yet!</div>
-        <% }%> 
+        <div class="column">
+          <div class="notification">
+            <div> Watch list</div>
+            <table class="table is-striped is-fullwidth">
+              <thead>
+                <tr>
+                  <th><abbr title="Symbol">Symbol</abbr></th>
+                  <th>Price</th>
+                  <th><abbr title="Percent Change">Day's Gain</abbr></th>
+                  <th><abbr title="Won">Day's Gain (%)</abbr></th>
+                  <th><abbr title="Won">DELETE</abbr></th>
+                  </tr>
+              </thead>
+              <tbody>
+                  <!-- looping through the apidata array and placing it in the table -->
+                  <% if (apiWatch.length !== 0) { %>
+                    <% apiWatch.forEach(function (i) { %>
+                <tr>
+                    <td><%=i.symbol%></td>
+                    <td><%=i.price%></td>
+                    <td><%=i.change%></td>
+                    <td><%=i.changesPercentage%></td>
+                    <td><form action="/stocks/watch/<%=i.symbol%>?_method=DELETE" METHOD="POST">
+                      <button>Delete</button>
+                    </form></td>
+                </tr>
+                <% }) %>
+                <% } else {%>
+                    <div>No items on the watchlist yet!</div>
+                <% }%> 
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
     </div>
