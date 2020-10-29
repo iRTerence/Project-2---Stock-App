@@ -77,6 +77,116 @@
         </div>
       </div>
     </section>
+
+<% if (tickerData.length !== 0) { %>
+<!-- Search Bar -->
+<section class="section">
+  <form>
+    <div class="container">
+      <div class="columns">
+        <div class="column">
+          <div class="">
+            <article class="panel is-info">
+              <p class="panel-heading has-text-centered">
+                Search
+              </p>
+              <div class="panel-block">
+                <p class="control has-icons-left">
+                  <input class="input is-info" type="text" placeholder="ticker" name="ticker" id="ticker">
+                  <span class="icon is-left">
+                    <i class="fas fa-search" aria-hidden="true"></i>
+                  </span>
+                </p>
+              </div>
+              <a class="panel-block">
+                <span class="panel-icon">
+                  <i class="fas fa-book" aria-hidden="true"></i>
+                </span>
+                <span id="symbol"><%=tickerData[0].symbol%></span>
+              </a>
+              <a class="panel-block">
+                <span class="panel-icon">
+                  <i class="fas fa-book" aria-hidden="true"></i>
+                </span>
+                <div>Name: <%=tickerData[0].name%></div>
+              </a>
+              <a class="panel-block">
+                <span class="panel-icon">
+                  <i class="fas fa-book" aria-hidden="true"></i>
+                </span>
+                <div>Price: <%=tickerData[0].price%></div>
+              </a>
+              <a class="panel-block">
+                <span class="panel-icon">
+                  <i class="fas fa-book" aria-hidden="true"></i>
+                </span>
+                <div>Day low: <%=tickerData[0].dayLow%></div>
+              </a>
+              <a class="panel-block">
+                <span class="panel-icon">
+                  <i class="fas fa-book" aria-hidden="true"></i>
+                </span>
+                <div>Day high: <%=tickerData[0].dayHigh%></div>
+              </a>
+              <a class="panel-block">
+                <span class="panel-icon">
+                  <i class="fas fa-book" aria-hidden="true"></i>
+                </span>
+                <div>Open: <%=tickerData[0].open%></div>
+
+              </a>
+              <a class="panel-block">
+                <span class="panel-icon">
+                  <i class="fas fa-book" aria-hidden="true"></i>
+                </span>
+                <div>Year high: <%=tickerData[0].yearHigh%></div>
+              </a>
+              <a class="panel-block">
+                <span class="panel-icon">
+                  <i class="fas fa-book" aria-hidden="true"></i>
+                </span>
+                <div>Year low: <%=tickerData[0].yearLow%></div>
+              </a>
+              <button type="submit" class="btn btn-primary" id="watchlist">Add to watchlist</button>
+              <button type="submit" class="btn btn-primary" id="portfolio">Add to portfolio</button>
+        
+            </article>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+  </section>
+  <%} else {%>
+    <form>
+      <div class="container">
+        <div class="columns">
+          <div class="column">
+            <div class="notification">
+              <article class="panel is-info">
+                <p class="panel-heading has-text-centered">
+                  Search
+                </p>
+                <div class="panel-block">
+                  <p class="control has-icons-left">
+                    <input class="input is-info" type="text" placeholder="ticker" name="ticker" id="ticker">
+                    <span class="icon is-left">
+                      <i class="fas fa-search" aria-hidden="true"></i>
+                    </span>
+                  </p>
+                </div>
+              </article>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+    </section>
+    <%}%>
+
+
+
+
     <!-- if User is NOT logged in  -->
 <% } else { %>
     <!-- These are the two columns for my watchlist/portfolio  -->
@@ -94,9 +204,14 @@
       </div>
     </section>
 
-
-
 <% } %>
+
+
+<!-- delete this lmao -->
+
+
+
+<!--  -->
 
 <!-- This is for the daily stock news -->
 		<section class="section">
@@ -120,9 +235,10 @@
 		</section>
 
 
-
+    
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script src="js/main.js"></script>
 
 </body>

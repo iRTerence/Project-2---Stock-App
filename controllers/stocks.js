@@ -13,7 +13,6 @@ async function removeTickerWatch(req,res) {
     try{
         //Checks to see if stock is there 
         const remove = await Stocks.findOne({'watch.ticker': id.id })
-        console.log(remove)
         //forEach to loop through the watch array to see if ticker(req.params.id) = ticker.id in one of the objects
         remove.watch.forEach(function (a){
             if(a.ticker === id.id) {
@@ -70,6 +69,8 @@ async function index(req, res) {
     let apiWatch = []
     let apiPort = []
     let news = await axios.get(newsURL)
+    let ticker = req.query.ticker   
+    let tickerData = await axios.get(`${rootURL+ticker}?apikey=${token}`)
 
     //This if statement is to check if the user is logged in or not and depending on if they are, will render differently
     if(req.user !== undefined) {
@@ -89,15 +90,13 @@ async function index(req, res) {
          let a = await axios.get(`${rootURL+api}?apikey=${token}`)
          apiPort.push(a.data[0])
        } 
-    //Stock news
-
-
      res.render('stocks/index', {
           user: req.user,
           name: req.query.name,
           apiPort,
           apiWatch,
-          stockNews: news.data
+          stockNews: news.data,
+          tickerData: tickerData.data
          })  
     // this else is nescesarry so that I don't get an error for searching undefined data in my API if the user isn't logged
     } else {
@@ -109,10 +108,10 @@ async function index(req, res) {
 }
 
 
-
 async function postWatch (req,res ) {
     //set variable stuff to ticker id from body
   let stuff = req.body.ticker
+  console.log(stuff)
   try {
       //Set a variable to find the requested item
     let a = await Stocks.find({'watch.ticker':req.body.ticker})
@@ -134,10 +133,10 @@ async function postWatch (req,res ) {
         })
         //I needed two if statements. I ran the code without it and it didn't work.
     }} else {
-        console.log(req.user)
         req.user.watch.push(req.body)
         req.user.save(function(err) {
         console.log(err)
+        res.render('back')
             })
         }
     } catch (err) {
@@ -157,7 +156,6 @@ async function postPortfolio (req,res ) {
           a[0].portfolio.forEach(w => {
           tempArray.push(w.ticker)
         })
-          console.log(tempArray)
       if(tempArray.includes(stuff)) {
           return console.log('This is already on the watch list!')
       } else {
@@ -169,6 +167,7 @@ async function postPortfolio (req,res ) {
           req.user.portfolio.push(req.body)
           req.user.save(function(err) {
           console.log(err)
+          res.render('back')
               })
           }
       } catch (err) {
@@ -185,5 +184,5 @@ module.exports = {
     postWatch,
     postPortfolio,
     removeTickerWatch,
-    removeTickerPort
+    removeTickerPort,
 }
