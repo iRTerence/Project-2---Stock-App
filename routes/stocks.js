@@ -5,7 +5,6 @@ const stocksCtrl = require('../controllers/stocks');
 const token = process.env.GITHUB_TOKEN;
 
 router.get('/' ,stocksCtrl.index)
-
 router.get('/search', isLoggedIn, stocksCtrl.search)
 
 

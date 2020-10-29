@@ -1,17 +1,11 @@
-//api variables 
-let $portfolio = $('#portfolio').on('click', postRequest)
-let symbol = document.getElementById('symbol').innerText
+//Dom selection for all of the Day's gains
+let change = document.querySelectorAll('.change')
 
+change.forEach((a) => {
+    if(a.textContent.includes("-")) {
+        a.style.color = "red"
+    } else {
+        a.style.color = "green"
+    }
+})
 
-function postRequest() {
-    axios.post('/stocks', {
-        ticker: symbol,
-      })
-      .then(function (response) {
-        console.log(response);
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
-
-}

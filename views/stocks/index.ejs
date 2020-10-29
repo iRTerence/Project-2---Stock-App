@@ -6,6 +6,7 @@
     <title>Document</title>
     <link href="/stylesheets/style.css" rel="stylesheet" type="text/css">
     <!-- <link href="/stylesheets/debug.css" rel="stylesheet" type="text/css"> -->
+    <script src="js/main.js" defer></script>
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
     <script defer src="https://use.fontawesome.com/releases/v5.14.0/js/all.js"></script>
@@ -67,8 +68,8 @@
                   <tr>
                       <td class="has-text-centered"><%=i.symbol%></td>
                       <td class="has-text-centered"><%=i.price%></td>
-                      <td class="has-text-centered"><%=i.change%></td>
-                      <td class="has-text-centered	"><%=i.changesPercentage%></td>
+                      <td class="has-text-centered"><span class='change'><%=i.change%></span></td>
+                      <td class="has-text-centered"><span class='change'><%=i.changesPercentage%></span></td>
                       <td><form action="/stocks/portfolio/<%=i.symbol%>?_method=DELETE" METHOD="POST">
                         <button class = "button is-small is-danger is-rounded ">Delete</button>
                       </form></td>
@@ -101,8 +102,8 @@
                   <tr>
                       <td class="has-text-centered"><%=i.symbol%></td>
                       <td class="has-text-centered"><%=i.price%></td>
-                      <td class="has-text-centered"><%=i.change%></td>
-                      <td class="has-text-centered"><%=i.changesPercentage%></td>
+                      <td class="has-text-centered"><span class='change'><%=i.change%></span></td>
+                      <td class="has-text-centered"><span class='change'><%=i.changesPercentage%></span></td>
                       <td class="has-text-centered"><form action="/stocks/watch/<%=i.symbol%>?_method=DELETE" METHOD="POST">
                         <button class="button is-small is-danger is-rounded">Delete</button>
                       </form></td>
@@ -125,19 +126,40 @@
       <div class="container">
         <div class="columns">
           <div class="column">
-            <div class="">
-              <h1 class="title is-size-4 center"> Portfolio </h1>
-            </div>
-          </div>
-          <div class="column">
-            <div class="">
-              <h1 class="title is-size-4 center"> Watchlist </h1>
+            <div class="notification is-warning">
+              <h1 class="title is-size-4 center"> Stock Watcher! </h1>
+              <p class="has-text-centered	has-text-weight-bold">Stocker Watcher helps you keep track of stocks that are in your portfolio and tracks stocks that you have an eye on!</p>
+              <p class="has-text-centered	has-text-weight-bold"> Login to start tracking now!</p>
             </div>
           </div>
         </div>
       </div>
     </section>
+
+
+
 <% } %>
+
+<!-- This is for the daily stock news -->
+		<section class="section">
+			<div class="container">
+				<div class="columns">
+          <% for(i=0; i<3; i++) { %>
+					<div class="column">
+						<div class="notification">
+                <figure class="image is-200x128">
+                  <img src=<%= stockNews[i].image%> >
+                </figure>
+                <h5 class="title is-4 stoptext"><%= stockNews[i].title%></h5>
+                <h6 class="subtitle is-6">Symbol:<%= stockNews[i].symbol%></h6>
+                <p class ="stoptext"><%= stockNews[i].text%> ... </p> <a href="<%= stockNews[i].url%>">Learn more</a>
+            </div>
+          </div>
+          <% }%>
+        </div>
+
+			</div>
+		</section>
 
 
 

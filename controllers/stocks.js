@@ -3,10 +3,9 @@ var router = express.Router();
 const Stocks = require('../models/stocks');
 const axios = require('axios');
 const request = require('request');
-const { watch } = require('../models/stocks');
-const stocks = require('../models/stocks');
 const token = process.env.FINNHUB_TOKEN;
 const rootURL = `https://financialmodelingprep.com/api/v3/quote/`;
+const newsURL = `https://financialmodelingprep.com/api/v3/stock_news?limit=50&apikey=${token}`
 
 
 async function removeTickerWatch(req,res) {
@@ -46,14 +45,14 @@ async function removeTickerPort(req,res) {
     } catch (err) {
         console.log(err)
     }
-        res.redirect('/stocks')
+        res.redirect('back')
 
 }
 
 function search(req, res) {
     //ticker data 
     let ticker = req.query.ticker   
-    //requesting the API 
+    //requesting the API (I started using axios afterwards instead of request)
     request(`${rootURL+ticker}?apikey=${token}`, (err, response, body) => {
         const tickerData = JSON.parse(body);
         res.render('stocks/search', {tickerData})
@@ -62,11 +61,13 @@ function search(req, res) {
 }
 
 async function index(req, res) {
-    //set two variables for the symbols in the watchlist and the API info
+    //set all variables
     let initWatch = []
     let initPort = []
     let apiWatch = []
     let apiPort = []
+    let news = await axios.get(newsURL)
+
     //This if statement is to check if the user is logged in or not and depending on if they are, will render differently
     if(req.user !== undefined) {
     //push what the user has saved in their watchlist/portfolio into initWatch or initPort
@@ -84,16 +85,23 @@ async function index(req, res) {
      for(let api of initPort ) {
          let a = await axios.get(`${rootURL+api}?apikey=${token}`)
          apiPort.push(a.data[0])
-       }      
+       } 
+    //Stock news
+
+
      res.render('stocks/index', {
           user: req.user,
           name: req.query.name,
           apiPort,
           apiWatch,
+          stockNews: news.data
          })  
     // this else is nescesarry so that I don't get an error for searching undefined data in my API if the user isn't logged
     } else {
-        res.render('stocks/index', {user: req.user})
+        res.render('stocks/index', {
+            user: req.user,
+            stockNews: news.data
+        })
     }
 }
 
@@ -107,9 +115,7 @@ async function postWatch (req,res ) {
     let a = await Stocks.find({'watch.ticker':req.body.ticker})
     //if I do NOT find the item the array would be empty [], so if the array.length is = 0 there were NO results
     if (a.length !== 0) {
-        // console.log(a)
         let tempArr = []
-        // console.log(a[0].watch)
         //push what the user has as ticker in a temp array
         a[0].watch.forEach(w => {
         tempArr.push(w.ticker)
@@ -144,9 +150,7 @@ async function postPortfolio (req,res ) {
     try { 
       let a = await Stocks.find({'portfolio.ticker':req.body.ticker})
       if (a.length !== 0) {
-          console.log(a)
           let tempArray = []
-        //   console.log(a[0].portfolio)
           a[0].portfolio.forEach(w => {
           tempArray.push(w.ticker)
         })
