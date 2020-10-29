@@ -1,46 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link href="/stylesheets/style.css" rel="stylesheet" type="text/css">
-    <!-- <link href="/stylesheets/debug.css" rel="stylesheet" type="text/css"> -->
-    <script src="js/main.js" defer></script>
-
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
-    <script defer src="https://use.fontawesome.com/releases/v5.14.0/js/all.js"></script>
-</head>
-<body>
-
-<!-- Hero Header -->
-  <section class="hero has-background-white">
-    <div class="hero-body">
-        <div class="container center">
-          <figure class="image center">
-            <img src="https://image.freepik.com/free-vector/buy-sell-concept-design-showing-bull-bear_1017-13716.jpg"style="max-width: 160px">
-          </figure>
-        </div>
-    </div>
-</section>
-<nav class="navbar is-spaced is-light" role="navigation" aria-label="main navigation">
-    <div class="navbar-brand">
-      <a class="navbar-item active center" href="/stocks">Home</a>
-    </div>
-    <div class="navbar-brand">
-      <a class="navbar-item active center" href="/stocks/search">Search</a>
-    </div>
-
-
-  </div>
-    <div class="navbar-end">
-      <% if (user) { %>
-      <a class="navbar-item active center" href="/logout">Log Out</a>
-      <% } else { %>
-      <a class="navbar-item active center" href="http://localhost:3000/auth/google">Login</a>
-      <% } %>
-    </div>
-</nav>
+<%- include('partials/head') %>
+<%- include('partials/navbar') %>
 
 <% if (user) { %>
     <!-- These are the two columns for my watchlist/portfolio  -->
@@ -75,10 +34,10 @@
                       </form></td>
                   </tr>
                   <% }) %>
-                  <% } else {%>
-                      <div>No items on the watchlist yet!</div>
-                  <% }%> 
+
                 </tbody>
+                <% } else {%>
+              <% }%> 
               </table>
             </div>
           </div>
@@ -110,7 +69,6 @@
                   </tr>
                   <% }) %>
                   <% } else {%>
-                      <div>No items on the watchlist yet!</div>
                   <% }%> 
                 </tbody>
               </table>
@@ -165,6 +123,8 @@
 
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <script src="js/main.js"></script>
+
 </body>
 </html>
 

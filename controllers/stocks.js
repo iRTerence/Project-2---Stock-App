@@ -55,7 +55,10 @@ function search(req, res) {
     //requesting the API (I started using axios afterwards instead of request)
     request(`${rootURL+ticker}?apikey=${token}`, (err, response, body) => {
         const tickerData = JSON.parse(body);
-        res.render('stocks/search', {tickerData})
+        res.render('stocks/search', {
+            tickerData,
+            user: req.user,
+        })
 
     })
 }
