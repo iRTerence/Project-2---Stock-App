@@ -8,21 +8,16 @@ const rootURL = `https://financialmodelingprep.com/api/v3/quote/`;
 const newsURL = `https://financialmodelingprep.com/api/v3/stock_news?limit=50&apikey=${token}`
 const tickerURL =  `https://financialmodelingprep.com/api/v3/stock_news?tickers=`
 
-
 async function removeTickerWatch(req,res) {
     const id = req.params
     try{
         //Checks to see if stock is there 
-        const remove = await Stocks.findOne({'watch.ticker': id.id })
-        //forEach to loop through the watch array to see if ticker(req.params.id) = ticker.id in one of the objects
-        remove.watch.forEach(function (a){
-            if(a.ticker === id.id) {
-                //remove from array if the ticker ID matches id.id
-                remove.watch.splice(a, 1);
-                remove.save()
-                res.redirect('/stocks')
-            } 
-        }) 
+        const remove = await Stocks.findOne({'watch._id': id.id })
+        //if stock is there remove it that matches the id
+            remove.watch.id(id.id).remove()
+            remove.save(err => {
+            res.redirect('/stocks')
+            })
     } catch (err) {
         console.log(err)
     }
@@ -33,34 +28,37 @@ async function removeTickerPort(req,res) {
     const id = req.params
     try{
         //Checks to see if stock is there 
-        const remove = await Stocks.findOne({'portfolio.ticker': id.id })
-        //forEach to loop through the portfolio array to see if ticker(req.params.id) = ticker.id in one of the objects
-        remove.portfolio.forEach(function (a){
-        //remove from array if it ticker ID matches req.params.id
-            if(a.ticker === id.id) {
-                remove.portfolio.splice(a, 1);
-                remove.save()
-                res.redirect('/stocks')
-            } 
-        }) 
+        const remove = await Stocks.findOne({'portfolio._id': id.id })
+        //if stock is there remove it that matches the id
+            remove.portfolio.id(id.id).remove()
+            remove.save(err => {
+            res.redirect('/stocks')
+            })
     } catch (err) {
         console.log(err)
     }
 
 }
 
-function search(req, res) {
+async function search(req, res) {
     //ticker data 
-    let ticker = req.query.ticker   
+    let ticker = req.query.ticker
+    let news = await axios.get(newsURL)
+    try {
+    let tickerNews = await axios.get(`${tickerURL+ticker}&limit=50&apikey=${token}`)
     //requesting the API (I started using axios afterwards instead of request)
     request(`${rootURL+ticker}?apikey=${token}`, (err, response, body) => {
         const tickerData = JSON.parse(body);
         res.render('stocks/search', {
             tickerData,
             user: req.user,
+            tickerNews: tickerNews.data,
+            stockNews: news.data,
         })
 
-    })
+    }) } catch (err){
+        console.log(err)
+    }
 }
 
 async function index(req, res) {
@@ -70,10 +68,7 @@ async function index(req, res) {
     let apiWatch = []
     let apiPort = []
     let news = await axios.get(newsURL)
-    let ticker = req.query.ticker   
-    let tickerData = await axios.get(`${rootURL+ticker}?apikey=${token}`)
-    let tickerNews = await axios.get(`${tickerURL+ticker}&limit=50&apikey=${token}`)
-    console.log(tickerNews.data)
+
 
     //This if statement is to check if the user is logged in or not and depending on if they are, will render differently
     if(req.user !== undefined) {
@@ -99,8 +94,6 @@ async function index(req, res) {
           apiPort,
           apiWatch,
           stockNews: news.data,
-          tickerData: tickerData.data,
-          tickerNews: tickerNews.data
          })  
     // this else is nescesarry so that I don't get an error for searching undefined data in my API if the user isn't logged
     } else {
@@ -111,11 +104,9 @@ async function index(req, res) {
     }
 }
 
-
 async function postWatch (req,res ) {
     //set variable stuff to ticker id from body
-  let stuff = req.body.ticker
-  console.log(stuff)
+  let bodyticker = req.body.ticker
   try {
       //Set a variable to find the requested item
     let a = await Stocks.find({'watch.ticker':req.body.ticker})
@@ -127,9 +118,9 @@ async function postWatch (req,res ) {
         tempArr.push(w.ticker)
       })
       // if the temp array includes the ticker info, it will NOT be added
-    if(tempArr.includes(stuff)) {
-        return console.log('This is already on the watch list!')
-        //otherwise push to users watchlist
+        if(tempArr.includes(bodyticker)) {
+            return console.log('This is already on the watch list!')
+            //otherwise push to users watchlist
     } else {
         req.user.watch.push(req.body)
         req.user.save(function(err) {
@@ -149,10 +140,9 @@ async function postWatch (req,res ) {
 
 }
 
-
 //this function is the same as postWatch so the explanation is the same
 async function postPortfolio (req,res ) {
-    let stuff = req.body.ticker
+    let bodyticker = req.body.ticker
     try { 
       let a = await Stocks.find({'portfolio.ticker':req.body.ticker})
       if (a.length !== 0) {
@@ -160,7 +150,7 @@ async function postPortfolio (req,res ) {
           a[0].portfolio.forEach(w => {
           tempArray.push(w.ticker)
         })
-      if(tempArray.includes(stuff)) {
+      if(tempArray.includes(bodyticker)) {
           return console.log('This is already on the watch list!')
       } else {
           req.user.portfolio.push(req.body)
@@ -179,8 +169,6 @@ async function postPortfolio (req,res ) {
       }
   
   }
-
-
 
 module.exports = {
     search,

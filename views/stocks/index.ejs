@@ -18,26 +18,24 @@
                     <th class="has-text-centered">Price</th>
                     <th class="has-text-centered"><abbr title="Days Change">Day's Gain</abbr></th>
                     <th class="has-text-centered"><abbr title="Percentage Change">Day's Gain (%)</abbr></th>
-                    <th><abbr title="Won">DELETE</abbr></th>
+                    <th><abbr title="delete">DELETE</abbr></th>
                     </tr>
                 </thead>
-                <tbody>
-                    <!-- looping through the apidata array and placing it in the table -->
-                    <% if (apiPort.length !== 0) { %>
-                      <% apiPort.forEach(function (i) { %>
-                  <tr>
-                      <td class="has-text-centered"><%=i.symbol%></td>
-                      <td class="has-text-centered"><%=i.price%></td>
-                      <td class="has-text-centered"><span class='change'><%=i.change%></span></td>
-                      <td class="has-text-centered"><span class='change'><%=i.changesPercentage%></span></td>
-                      <td><form action="/stocks/portfolio/<%=i.symbol%>?_method=DELETE" METHOD="POST">
-                        <button class = "button is-small is-danger is-rounded ">Delete</button>
-                      </form></td>
-                  </tr>
-                  <% }) %>
-
-                </tbody>
+                <% if (apiPort.length !== 0) { %>
+                  <% for(i=0; i<apiPort.length; i++) { %>
+              <tr>
+                  <td class="has-text-centered"><%=apiPort[i].symbol%></td>
+                  <td class="has-text-centered"><%=apiPort[i].price%></td>
+                  <td class="has-text-centered"><span class='change'><%=apiPort[i].change%></span></td>
+                  <td class="has-text-centered"><span class='change'><%=apiPort[i].changesPercentage%></span></td>
+                  <td class="has-text-centered"><form action="/stocks/portfolio/<%=user.portfolio[i]._id%>?_method=DELETE" METHOD="POST">
+                    <button class="button is-small is-danger is-rounded refresh">Delete</button>
+                  </form></td>
+              </tr>
+              <% } %>
+              
                 <% } else {%>
+                  
               <% }%> 
               </table>
             </div>
@@ -58,17 +56,17 @@
                 <tbody>
                     <!-- looping through the apidata array and placing it in the table -->
                     <% if (apiWatch.length !== 0) { %>
-                      <% apiWatch.forEach(function (i) { %>
+                      <% for(i=0; i<apiWatch.length; i++) { %>
                   <tr>
-                      <td class="has-text-centered"><%=i.symbol%></td>
-                      <td class="has-text-centered"><%=i.price%></td>
-                      <td class="has-text-centered"><span class='change'><%=i.change%></span></td>
-                      <td class="has-text-centered"><span class='change'><%=i.changesPercentage%></span></td>
-                      <td class="has-text-centered"><form action="/stocks/watch/<%=i.symbol%>?_method=DELETE" METHOD="POST">
-                        <button class="button is-small is-danger is-rounded">Delete</button>
+                      <td class="has-text-centered"><%=apiWatch[i].symbol%></td>
+                      <td class="has-text-centered"><%=apiWatch[i].price%></td>
+                      <td class="has-text-centered"><span class='change'><%=apiWatch[i].change%></span></td>
+                      <td class="has-text-centered"><span class='change'><%=apiWatch[i].changesPercentage%></span></td>
+                      <td class="has-text-centered"><form action="/stocks/watch/<%=user.watch[i]._id%>?_method=DELETE" METHOD="POST">
+                        <button class="button is-small is-danger is-rounded refresh">Delete</button>
                       </form></td>
                   </tr>
-                  <% }) %>
+                  <% } %>
                   <% } else {%>
                   <% }%> 
                 </tbody>
@@ -79,135 +77,6 @@
       </div>
     </section>
 
-<% if (tickerData.length !== 0) { %>
-<!-- Search Bar -->
-<section class="section">
-  <form>
-    <div class="container">
-      <div class="columns">
-        <div class="column">
-          <div class="">
-            <article class="panel is-info">
-              <p class="panel-heading has-text-centered">
-                Search
-              </p>
-              <div class="panel-block">
-                <p class="control has-icons-left">
-                  <input class="input is-info" type="text" placeholder="ticker" name="ticker" id="ticker">
-                  <span class="icon is-left">
-                    <i class="fas fa-search" aria-hidden="true"></i>
-                  </span>
-                </p>
-              </div>
-              <a class="panel-block">
-                <span class="panel-icon">
-                  <i class="fas fa-book" aria-hidden="true"></i>
-                </span>
-                <span id="symbol"><%=tickerData[0].symbol%></span>
-              </a>
-              <a class="panel-block">
-                <span class="panel-icon">
-                  <i class="fas fa-book" aria-hidden="true"></i>
-                </span>
-                <div>Name: <%=tickerData[0].name%></div>
-              </a>
-              <a class="panel-block">
-                <span class="panel-icon">
-                  <i class="fas fa-book" aria-hidden="true"></i>
-                </span>
-                <div>Price: <%=tickerData[0].price%></div>
-              </a>
-              <a class="panel-block">
-                <span class="panel-icon">
-                  <i class="fas fa-book" aria-hidden="true"></i>
-                </span>
-                <div>Day low: <%=tickerData[0].dayLow%></div>
-              </a>
-              <a class="panel-block">
-                <span class="panel-icon">
-                  <i class="fas fa-book" aria-hidden="true"></i>
-                </span>
-                <div>Day high: <%=tickerData[0].dayHigh%></div>
-              </a>
-              <a class="panel-block">
-                <span class="panel-icon">
-                  <i class="fas fa-book" aria-hidden="true"></i>
-                </span>
-                <div>Open: <%=tickerData[0].open%></div>
-
-              </a>
-              <a class="panel-block">
-                <span class="panel-icon">
-                  <i class="fas fa-book" aria-hidden="true"></i>
-                </span>
-                <div>Year high: <%=tickerData[0].yearHigh%></div>
-              </a>
-              <a class="panel-block">
-                <span class="panel-icon">
-                  <i class="fas fa-book" aria-hidden="true"></i>
-                </span>
-                <div>Year low: <%=tickerData[0].yearLow%></div>
-              </a>
-              <button type="submit" class="button is-primary is-rounded" id="portfolio">Add to portfolio</button>
-              <button type="submit" class="button is-primary is-rounded" id="watchlist">Add to watchlist</button>
-        
-            </article>
-          </div>
-        </div>
-      </div>
-    </div>
-  </form>
-  </section>
-
-  <section class="section">
-    <div class="container">
-      <div class="columns">
-        <% for(i=0; i<3; i++) { %>
-        <div class="column">
-          <div class="">
-              <figure class="image is-200x128">
-                <img src=<%= tickerNews[i].image%> >
-              </figure>
-              <h5 class="title is-4 stoptext"><%= tickerNews[i].title%></h5>
-              <h6 class="subtitle is-6">Symbol:<%= tickerNews[i].symbol%></h6>
-              <p class ="stoptext"><%= tickerNews[i].text%> ... </p> <a href="<%= tickerNews[i].url%>">Learn more</a>
-          </div>
-        </div>
-        <% }%>
-      </div>
-
-    </div>
-  </section>
-
-  <%} else {%>
-    <form>
-      <div class="container">
-        <div class="columns">
-          <div class="column">
-            <div class="">
-              <article class="panel is-info">
-                <p class="panel-heading has-text-centered">
-                  Search
-                </p>
-                <div class="panel-block">
-                  <p class="control has-icons-left">
-                    <input class="input is-info" type="text" placeholder="ticker" name="ticker" id="ticker"> 
-                    <button>Submit</button>
-                    <span class="icon is-left">
-                      <i class="fas fa-search" aria-hidden="true"></i>
-                    </span>
-                
-
-                  </p>
-                </div>
-              </article>
-            </div>
-          </div>
-        </div>
-      </div>
-    </form>
-    </section>
-    <%}%>
 
 
 
@@ -220,41 +89,18 @@
         <div class="columns">
           <div class="column">
             <div class="notification is-warning">
-              <h1 class="title is-size-4 center"> Stock Watcher! </h1>
-              <p class="has-text-centered	has-text-weight-bold">Stocker Watcher helps you keep track of stocks that are in your portfolio and tracks stocks that you have an eye on!</p>
+              <h1 class="title is-size-4 center"> StockWatchers! </h1>
+              <p class="has-text-centered	has-text-weight-bold">StockerWatchers helps you keep track of stocks that are in your portfolio and tracks stocks that you have an eye on!</p>
               <p class="has-text-centered	has-text-weight-bold"> Login to start tracking now!</p>
             </div>
           </div>
         </div>
       </div>
     </section>
-
 <% } %>
 
+<%- include('partials/stocknews') %>
 
-<!-- This is for the daily stock news -->
-		<section class="section">
-			<div class="container">
-				<div class="columns">
-          <% for(i=0; i<3; i++) { %>
-					<div class="column">
-						<div class="">
-                <figure class="image is-200x128">
-                  <img src=<%= stockNews[i].image%> >
-                </figure>
-                <h5 class="title is-4 stoptext"><%= stockNews[i].title%></h5>
-                <h6 class="subtitle is-6">Symbol:<%= stockNews[i].symbol%></h6>
-                <p class ="stoptext"><%= stockNews[i].text%> ... </p> <a href="<%= stockNews[i].url%>">Learn more</a>
-            </div>
-          </div>
-          <% }%>
-        </div>
-
-			</div>
-		</section>
-
-
-    
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>

@@ -1,72 +1,133 @@
     <%- include('partials/head') %>
     <!-- navbar, used bulma for CSS -->
-    <section class="hero has-background-white">
-        <div class="hero-body">
-            <div class="container center">
-              <figure class="image center">
-                <img src="../img/usethis.png"style="max-width: 200px">
-              </figure>
+    <%- include('partials/navbar') %>
+    <% if (tickerData.length !== 0) { %>
+      <!-- Search Bar -->
+      <section class="section">
+        <form>
+          <div class="container">
+            <div class="columns">
+              <div class="column">
+                <div class="">
+                  <article class="panel is-info">
+                    <p class="panel-heading has-text-centered">
+                      Search
+                    </p>
+                    <div class="panel-block">
+                      <p class="control has-icons-left">
+                        <input class="input is-info" type="text" placeholder="ticker" name="ticker" id="ticker">
+                        <span class="icon is-left">
+                          <i class="fas fa-search" aria-hidden="true"></i>
+                        </span>
+                      </p>
+                    </div>
+                    <a class="panel-block">
+                      <span class="panel-icon">
+                        <i class="fas fa-marker" aria-hidden="true"></i>
+                      </span>
+                      <span id="symbol"><%=tickerData[0].symbol%></span>
+                    </a>
+                    <a class="panel-block">
+                      <span class="panel-icon">
+                        <i class="fas fa-marker" aria-hidden="true"></i>
+                      </span>
+                      <div>Name: <%=tickerData[0].name%></div>
+                    </a>
+                    <a class="panel-block">
+                      <span class="panel-icon">
+                        <i class="fas fa-bullseye" aria-hidden="true"></i>
+                      </span>
+                      <div>Price: <%=tickerData[0].price%></div>
+                    </a>
+                    <a class="panel-block">
+                      <span class="panel-icon">
+                        <i class="fas fa-comment-dollar" aria-hidden="true"></i>
+                      </span>
+                      <div>Day low: <%=tickerData[0].dayLow%></div>
+                    </a>
+                    <a class="panel-block">
+                      <span class="panel-icon">
+                        <i class="fas fa-comment-dollar" aria-hidden="true"></i>
+                      </span>
+                      <div>Day high: <%=tickerData[0].dayHigh%></div>
+                    </a>
+                    <a class="panel-block">
+                      <span class="panel-icon">
+                        <i class="fas fa-comment-dollar" aria-hidden="true"></i>
+                      </span>
+                      <div>Open: <%=tickerData[0].open%></div>
+                    </a>
+                    <a class="panel-block">
+                      <span class="panel-icon">
+                        <i class="fas fa-comment-dollar" aria-hidden="true"></i>
+                      </span>
+                      <div>Year high: <%=tickerData[0].yearHigh%></div>
+                    </a>
+                    <a class="panel-block">
+                      <span class="panel-icon">
+                        <i class="fas fa-comment-dollar" aria-hidden="true"></i>
+                      </span>
+                      <div>Year low: <%=tickerData[0].yearLow%></div>
+                    </a>
+                    <button type="submit" class="button is-primary is-rounded" id="portfolio">Add to portfolio</button>
+                    <button type="submit" class="button is-primary is-rounded" id="watchlist">Add to watchlist</button>
+                  </article>
+                </div>
+              </div>
             </div>
-        </div>
-    </section>
-    <nav class="navbar is-spaced is-light" role="navigation" aria-label="main navigation">
-        <div class="navbar-brand">
-          <a class="navbar-item active center" href="/stocks">Home</a>
-        </div>
-        <div class="navbar-brand">
-          <a class="navbar-item active center" href="/stocks/search">Search</a>
-        </div>
-      </div>
-        <div class="navbar-end">
-          <% if (user) { %>
-          <a class="navbar-item active center" href="/logout">Log Out</a>
-          <% } else { %>
-          <a class="navbar-item active center" href="http://localhost:3000/auth/google">Login</a>
-          <% } %>
-        </div>
-    </nav>
+          </div>
+        </form>
+        </section>
+      <!-- News section -->
+        <section class="section">
+          <div class="container">
+            <div class="columns">
+              <% for(i=0; i<3; i++) { %>
+              <div class="column">
+                <div class="">
+                    <figure class="image is-200x128">
+                      <img src=<%= tickerNews[i].image%> >
+                    </figure>
+                    <h5 class="title is-4 stoptext"><%= tickerNews[i].title%></h5>
+                    <h6 class="subtitle is-6">Symbol:<%= tickerNews[i].symbol%></h6>
+                    <p class ="stoptext"><%= tickerNews[i].text%> ... </p> <a href="<%= tickerNews[i].url%>" target="_blank">Learn more</a>
+                </div>
+              </div>
+              <% }%>
+            </div>
+      
+          </div>
+        </section>
+      <!-- When there is nothing searched, hide search results -->
+        <%} else {%>
+          <form>
+            <div class="container">
+              <div class="columns">
+                <div class="column">
+                  <div class="">
+                    <article class="panel is-info">
+                      <p class="panel-heading has-text-centered">
+                        Search
+                      </p>
+                      <div class="panel-block">
+                        <p class="control has-icons-left">
+                          <input class="input is-info" type="text" placeholder="ticker" name="ticker" id="ticker"> 
+                          <span class="icon is-left">
+                            <i class="fas fa-search" aria-hidden="true"></i>
+                          </span>
+                        </p>
+                      </div>
+                    </article>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </form>
+          </section>
+          <%}%>
+          
+          <%- include('partials/stocknews') %>
 
-
-<form>
-  <div class="field is-grouped">
-    <p class="control is-expanded">
-      <input class="input" type="text" placeholder="Search for a symbol" name="ticker" id="ticker">
-    </p>
-    <p class="control">
-      <button type="submit" class="button is-info">Submit</button>
-    </p>
-  </div>
-</form>
-
-    <!-- <form>
-        <div class="form-group">
-          <label>Ticker</label>
-          <input type="text" name="ticker" id="ticker">
-        </div>
-      </form> -->
-      <% if (tickerData.length !== 0) { %>
-
-        <div>Symbol:<span id="symbol"><%=tickerData[0].symbol%></span></div>
-        <div>Name: <%=tickerData[0].name%></div>
-        <div>Price: <%=tickerData[0].price%></div>
-        <div>Day low: <%=tickerData[0].dayLow%></div>
-        <div>Day high: <%=tickerData[0].dayHigh%></div>
-        <div>Open: <%=tickerData[0].open%></div>
-        <div>Year high: <%=tickerData[0].yearHigh%></div>
-        <div>Year low: <%=tickerData[0].yearLow%></div>
-
-      <%} else {%>
-        <div>Price: </div>
-        <div>Day low: </div>
-        <div>Day high: </div>
-        <div>Open: </div>
-        <div>Year high: </div>
-        <div>Year low: </div>
-        <% }%> %>
-     
-       <button type="submit" class="btn btn-primary" id="watchlist">Add to watchlist</button>
-       <button type="submit" class="btn btn-primary" id="portfolio">Add to portfolio</button>
- 
       
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
