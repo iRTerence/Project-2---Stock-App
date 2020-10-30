@@ -4,14 +4,9 @@ let $watchlist = $('#watchlist').on('click', watchRequest)
 let symbol = document.getElementById('symbol').innerText
 
 
-async function watchRequest() {
-    try {
-      await window.location.replace("https://t-stockwatcher.herokuapp.com/stocks");
-      await axios.post('https://t-stockwatcher.herokuapp.com/stocks/watch', {ticker: symbol,})
-
-    } catch (error) {
-      console.log(error)
-    }
+function watchRequest() {
+      window.location.replace("https://t-stockwatcher.herokuapp.com/stocks");
+      axios.post('https://t-stockwatcher.herokuapp.com/stocks/watch', {ticker: symbol,})
 
 }
 
