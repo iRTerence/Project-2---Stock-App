@@ -4,7 +4,7 @@ const Stocks = require('../models/stocks');
 
 
 passport.use(new GoogleStrategy({
-    clientID: "483791578968-20c04u25pq3a3bkaad8jgugigjat342i.apps.googleusercontent.com",
+    clientID: process.env.GOOGLE_CLIENT_ID,
     clientSecret: process.env.GOOGLE_SECRET,
     callbackURL: process.env.GOOGLE_CALLBACK
   },
