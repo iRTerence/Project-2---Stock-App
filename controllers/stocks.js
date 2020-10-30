@@ -69,6 +69,7 @@ async function index(req, res) {
     let apiWatch = []
     let apiPort = []
     let news = await axios.get(newsURL)
+    let id = req.params.id
 
 
     //This if statement is to check if the user is logged in or not and depending on if they are, will render differently
@@ -95,6 +96,7 @@ async function index(req, res) {
              apiPort,
              apiWatch,
              stockNews: news.data,
+             id,
             })  
     // this else is nescesarry so that I don't get an error for searching undefined data in my API if the user isn't logged
     } else {
