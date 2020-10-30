@@ -19,7 +19,7 @@ Project is created with:
 * Mongoose
 * Mongo DB
 
-## Game link
+## Website link
 * [StockWatcher](stockwatcher.herokuapp.com/stocks)
 
 ## Future Enhancements

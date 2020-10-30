@@ -14,10 +14,10 @@ async function removeTickerWatch(req,res) {
         //Checks to see if stock is there 
         const remove = await Stocks.findOne({'watch._id': id.id })
         //if stock is there remove it that matches the id
-            remove.watch.id(id.id).remove()
-            remove.save(err => {
+        remove.watch.id(id.id).remove()
+        remove.save(err => {
             res.redirect('/stocks')
-            })
+        })
     } catch (err) {
         console.log(err)
     }
@@ -45,8 +45,9 @@ async function search(req, res) {
     let ticker = req.query.ticker
     let news = await axios.get(newsURL)
     try {
+    //getting the stock news API
     let tickerNews = await axios.get(`${tickerURL+ticker}&limit=50&apikey=${token}`)
-    //requesting the API (I started using axios afterwards instead of request)
+    //requesting the API for stock tracking(I started using axios afterwards instead of request)
     request(`${rootURL+ticker}?apikey=${token}`, (err, response, body) => {
         const tickerData = JSON.parse(body);
         res.render('stocks/search', {
@@ -73,28 +74,28 @@ async function index(req, res) {
     //This if statement is to check if the user is logged in or not and depending on if they are, will render differently
     if(req.user !== undefined) {
     //push what the user has saved in their watchlist/portfolio into initWatch or initPort
-     req.user.watch.forEach(t => {
-         initWatch.push(t.ticker)
-     })
-     req.user.portfolio.forEach(t => {
-         initPort.push(t.ticker)
-     })
-     //for loop to get all the API info for both the watchlist and portfolio and place it in the 2 api arrays
-     for(let api of initWatch ) {
-       let a = await axios.get(`${rootURL+api}?apikey=${token}`)
-       apiWatch.push(a.data[0])
-     }
-     for(let api of initPort ) {
-         let a = await axios.get(`${rootURL+api}?apikey=${token}`)
-         apiPort.push(a.data[0])
-       } 
-     res.render('stocks/index', {
-          user: req.user,
-          name: req.query.name,
-          apiPort,
-          apiWatch,
-          stockNews: news.data,
-         })  
+        req.user.watch.forEach(t => {
+            initWatch.push(t.ticker)
+        })
+        req.user.portfolio.forEach(t => {
+            initPort.push(t.ticker)
+        })
+        //for loop to get all the API info for both the watchlist and portfolio and place it in the 2 api arrays
+        for(let api of initWatch ) {
+          let a = await axios.get(`${rootURL+api}?apikey=${token}`)
+          apiWatch.push(a.data[0])
+        }
+        for(let api of initPort ) {
+            let a = await axios.get(`${rootURL+api}?apikey=${token}`)
+            apiPort.push(a.data[0])
+          } 
+        res.render('stocks/index', {
+             user: req.user,
+             name: req.query.name,
+             apiPort,
+             apiWatch,
+             stockNews: news.data,
+            })  
     // this else is nescesarry so that I don't get an error for searching undefined data in my API if the user isn't logged
     } else {
         res.render('stocks/index', {
