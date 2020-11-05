@@ -20,7 +20,7 @@ Project is created with:
 * Mongo DB
 
 ## Website link
-* [StockWatcher](stockwatcher.herokuapp.com/stocks)
+* [StockWatcher](https://t-stockwatcher.herokuapp.com/stocks)
 
 ## Future Enhancements
 * Able to add lots for portfolio purchases, to keep an accurate value on the portfolio
