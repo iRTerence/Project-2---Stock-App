@@ -1,4 +1,4 @@
-# Stock Tracker
+# Budget App
 ## Introduction
 The aim of this project was to be able to create a functioning web application where the user would be able to keep track of stocks in their portfolio as well as have a watch list.
 
